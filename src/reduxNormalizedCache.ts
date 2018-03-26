@@ -6,7 +6,8 @@ import {
 import {
     APOLLO_OVERWRITE,
     APOLLO_RESET,
-    APOLLO_WRITE
+    APOLLO_WRITE,
+    APOLLO_DELETE
 } from "./constants";
 import {
     Store
@@ -26,10 +27,10 @@ export class ReduxNormalizedCache implements NormalizedCache {
         this.store = reduxCacheConfig.store;
     }
     public toObject(): NormalizedCacheObject {
-        return this.getReducer();
+        return this.getReducer().toJS();
     }
     public get(dataId: string): StoreObject {
-        return this.getReducer()[dataId];
+        return this.getReducer().get(dataId);
     }
     public set(dataId: string, value: StoreObject) {
         this.store.dispatch({
@@ -39,8 +40,8 @@ export class ReduxNormalizedCache implements NormalizedCache {
     }
     public delete(dataId: string): void {
         this.store.dispatch({
-            type: APOLLO_WRITE,
-            data: { [dataId]: undefined }
+            type: APOLLO_DELETE,
+            data: dataId
         });
     }
     public clear(): void {
@@ -56,7 +57,7 @@ export class ReduxNormalizedCache implements NormalizedCache {
         });
     }
     private getReducer(): any {
-        return this.store.getState()[this.reduxRootSelector];
+        return this.store.getState().get(this.reduxRootSelector);
     }
 }
 

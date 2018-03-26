@@ -1,9 +1,10 @@
-import { merge, cloneDeep } from 'lodash';
+import { fromJS } from 'immutable';
 import { Reducer } from 'redux';
 import {
     APOLLO_OVERWRITE,
     APOLLO_RESET,
-    APOLLO_WRITE
+    APOLLO_WRITE,
+    APOLLO_DELETE
 } from "./constants";
 
 const initialState: any = {};
@@ -11,12 +12,13 @@ const initialState: any = {};
 export function apolloReducer(state = initialState, action: any): Reducer<any> {
     switch(action.type) {
         case APOLLO_RESET:
-            return initialState;
+            return fromJS(initialState);
         case APOLLO_OVERWRITE:
-            return action.data;
+            return state.merge(action.data);
         case APOLLO_WRITE:
-            const newObj = cloneDeep(state);
-            return merge(newObj, action.data);
+            return state.merge(action.data);
+        case APOLLO_DELETE:
+            return state.delete(action.data);
         default:
             return state;
     }
