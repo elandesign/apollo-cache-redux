@@ -1,7 +1,7 @@
 {
-  "name": "apollo-cache-redux",
+  "name": "apollo-cache-redux-immutable",
   "version": "0.1.0",
-  "description": "Redux cache for Apollo Client 2.x",
+  "description": "Redux immutable cache for Apollo Client 2.x",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
   "repository": {
@@ -10,7 +10,8 @@
   },
   "author": "Ricardo Portugal <ricardofmportugal@gmail.com>",
   "contributors": [
-    "Ricardo Portugal <ricardofmportugal@gmail.com>"
+    "Ricardo Portugal <ricardofmportugal@gmail.com>",
+    "Paul Smith <paul.smith@replaypoker.com>"
   ],
   "license": "MIT",
   "bugs": {
