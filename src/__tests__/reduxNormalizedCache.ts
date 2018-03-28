@@ -1,14 +1,16 @@
 import { ReduxNormalizedCache, ReduxNormalizedCacheConfig } from '../reduxNormalizedCache';
 import { NormalizedCacheObject } from 'apollo-cache-inmemory';
 import { apolloReducer } from "../reducer";
-import { combineReducers, createStore } from "redux";
+import { createStore } from "redux";
+import { combineReducers } from 'redux-immutable';
+import { fromJS } from 'immutable';
 
 describe('ReduxNormalizedCache', () => {
     function createCache({
         initialState
     }: {
             initialState?: any;
-        } = {}, ): ReduxNormalizedCache {
+        } = fromJS({}), ): ReduxNormalizedCache {
         const store = createStore(
             combineReducers({
                 apollo: apolloReducer
@@ -31,9 +33,8 @@ describe('ReduxNormalizedCache', () => {
     });
 
     it(`should .get() an object from the store by dataId`, () => {
-        const contents: NormalizedCacheObject = { a: {} };
-        const cache = createCache();
-        cache.replace(contents);
+        const contents: NormalizedCacheObject = fromJS({ a: {} });
+        const cache = createCache(contents);
         expect(cache.get('a')).toBe(contents.a);
     });
 
@@ -41,7 +42,7 @@ describe('ReduxNormalizedCache', () => {
         const obj = {};
         const cache = createCache();
         cache.set('a', obj);
-        expect(cache.get('a')).toEqual(obj);
+        expect(cache.get('a').toJS()).toEqual(obj);
     });
 
     it(`should .clear() the store`, () => {
