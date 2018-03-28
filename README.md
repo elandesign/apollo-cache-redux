@@ -4,7 +4,7 @@ It is forked from [apollo-cache-redux](https://github.com/rportugal/apollo-cache
 
 # Installation
 ```javascript
-npm install elandesign/apollo-cache-redux-immutable --save
+npm install elandesign/apollo-cache-redux-immutable#dist --save
 ```
 
 After installing the package:
