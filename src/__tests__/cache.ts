@@ -1,6 +1,8 @@
 import {ApolloCache} from 'apollo-cache';
 import gql, {disableFragmentWarnings} from 'graphql-tag';
-import { combineReducers, createStore } from 'redux';
+import { createStore } from 'redux';
+import { combineReducers } from 'redux-immutable';
+import { fromJS } from 'immutable';
 
 import {ReduxCache} from '..';
 import {ApolloReducerConfig, NormalizedCache} from 'apollo-cache-inmemory';
@@ -540,7 +542,7 @@ describe('Cache', () => {
         `,
             });
 
-            expect((proxy as ReduxCache).extract()).toEqual({
+            expect((proxy as ReduxCache).extract()).toMatchObject({
                 ROOT_QUERY: {
                     a: 1,
                 },
@@ -556,7 +558,7 @@ describe('Cache', () => {
         `,
             });
 
-            expect((proxy as ReduxCache).extract()).toEqual({
+            expect((proxy as ReduxCache).extract()).toMatchObject({
                 ROOT_QUERY: {
                     a: 1,
                     b: 2,
@@ -575,7 +577,7 @@ describe('Cache', () => {
         `,
             });
 
-            expect((proxy as ReduxCache).extract()).toEqual({
+            expect((proxy as ReduxCache).extract()).toMatchObject({
                 ROOT_QUERY: {
                     a: 4,
                     b: 5,
@@ -599,7 +601,7 @@ describe('Cache', () => {
         `,
             });
 
-            expect((proxy as ReduxCache).extract()).toEqual({
+            expect((proxy as ReduxCache).extract()).toMatchObject({
                 ROOT_QUERY: {
                     a: 1,
                     d: {
@@ -627,7 +629,7 @@ describe('Cache', () => {
         `,
             });
 
-            expect((proxy as ReduxCache).extract()).toEqual({
+            expect((proxy as ReduxCache).extract()).toMatchObject({
                 ROOT_QUERY: {
                     a: 1,
                     d: {
@@ -675,7 +677,7 @@ describe('Cache', () => {
         `,
             });
 
-            expect((proxy as ReduxCache).extract()).toEqual({
+            expect((proxy as ReduxCache).extract()).toMatchObject({
                 ROOT_QUERY: {
                     a: 1,
                     b: 2,
@@ -724,7 +726,7 @@ describe('Cache', () => {
                 },
             });
 
-            expect((proxy as ReduxCache).extract()).toEqual({
+            expect((proxy as ReduxCache).extract()).toMatchObject({
                 ROOT_QUERY: {
                     'field({"literal":true,"value":42})': 1,
                     'field({"literal":false,"value":42})': 2,
@@ -751,7 +753,7 @@ describe('Cache', () => {
                 },
             });
 
-            expect((proxy as ReduxCache).extract()).toEqual({
+            expect((proxy as ReduxCache).extract()).toMatchObject({
                 ROOT_QUERY: {
                     'field({"literal":true,"value":42})': 1,
                     'field({"literal":false,"value":null})': 2,
@@ -855,7 +857,7 @@ describe('Cache', () => {
         `,
             });
 
-            expect((proxy as ReduxCache).extract()).toEqual({
+            expect((proxy as ReduxCache).extract()).toMatchObject({
                 foo: {
                     e: 4,
                     h: {
@@ -883,7 +885,7 @@ describe('Cache', () => {
         `,
             });
 
-            expect((proxy as ReduxCache).extract()).toEqual({
+            expect((proxy as ReduxCache).extract()).toMatchObject({
                 foo: {
                     e: 4,
                     f: 5,
@@ -911,7 +913,7 @@ describe('Cache', () => {
         `,
             });
 
-            expect((proxy as ReduxCache).extract()).toEqual({
+            expect((proxy as ReduxCache).extract()).toMatchObject({
                 foo: {
                     e: 4,
                     f: 5,
@@ -940,7 +942,7 @@ describe('Cache', () => {
         `,
             });
 
-            expect((proxy as ReduxCache).extract()).toEqual({
+            expect((proxy as ReduxCache).extract()).toMatchObject({
                 foo: {
                     e: 4,
                     f: 5,
@@ -988,7 +990,7 @@ describe('Cache', () => {
                 fragmentName: 'fooFragment',
             });
 
-            expect((proxy as ReduxCache).extract()).toEqual({
+            expect((proxy as ReduxCache).extract()).toMatchObject({
                 foo: {
                     e: 4,
                     f: 5,
@@ -1030,7 +1032,7 @@ describe('Cache', () => {
                 fragmentName: 'barFragment',
             });
 
-            expect((proxy as ReduxCache).extract()).toEqual({
+            expect((proxy as ReduxCache).extract()).toMatchObject({
                 foo: {
                     e: 4,
                     f: 5,
@@ -1100,7 +1102,7 @@ describe('Cache', () => {
                 },
             });
 
-            expect((proxy as ReduxCache).extract()).toEqual({
+            expect((proxy as ReduxCache).extract()).toMatchObject({
                 foo: {
                     __typename: 'Foo',
                     'field({"literal":true,"value":42})': 1,

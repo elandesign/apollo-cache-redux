@@ -11,7 +11,6 @@ import {
     ReduxNormalizedCacheConfig,
     reduxNormalizedCacheFactory
 } from './reduxNormalizedCache';
-import {cloneDeep} from 'lodash';
 
 export type ReduxCacheConfig = ApolloReducerConfig & ReduxNormalizedCacheConfig;
 
@@ -23,20 +22,16 @@ export class ReduxCache extends InMemoryCache {
     }
 
     public write(write: Cache.WriteOptions): void {
-        const data = this.config.storeFactory(cloneDeep(this.data.toObject()));
-
         writeResultToStore({
             dataId: write.dataId,
             result: write.result,
             variables: write.variables,
             document: this.transformDocument(write.query),
-            store: data,
+            store: this.data,
             dataIdFromObject: this.config.dataIdFromObject,
             fragmentMatcherFunction: this.config.fragmentMatcher.match,
         });
 
-
-        this.data.replace(data.toObject());
         this.broadcastWatches();
     }
 }
